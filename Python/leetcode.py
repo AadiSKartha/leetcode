@@ -13,6 +13,46 @@ class LeetCode:
     """
     Class containing LeetCode solution methods.
     """
+    
+    def my_atoi(self, input: str) -> int:
+        """
+        Method for custom implementation of the atoi method : to convert a String to 
+        Integer.
+
+        Args:
+            input (str): Input string.
+
+        Returns:
+            int: Integer value.
+        """
+
+        MAX_INT = 2**31 - 1
+        MIN_INT = -2**31
+
+        n = len(input)
+        i = 0
+
+        # Skipping leading spaces.
+        while i < n and input[i] == ' ':
+            i += 1
+
+        # Determining sign.
+        sign = 1
+        if i < n and (input[i] == '+' or input[i] == '-'):
+            sign = -1 if input[i] == '-' else 1
+            i += 1
+
+        # Calculating result value.
+        result = 0
+        while i < n and input[i].isdigit():
+            result = result * 10 + int(input[i])
+            if result * sign > MAX_INT:
+                return MAX_INT
+            elif result * sign < MIN_INT:
+                return MIN_INT
+            i += 1
+
+        return result * sign 
 
     def two_sum(self, nums: List[int], target: int) -> List[int]:
         """
@@ -147,4 +187,28 @@ class LeetCode:
                 result -= current_val
             else:
                 result += current_val
+        return result
+
+    def int_to_roman(self, input: int) -> str:
+        result = ""
+        value_dict = {
+            1000: "M",
+            900: "CM",
+            500: "D",
+            400: "CD",
+            100: "C",
+            90: "XC",
+            50: "L",
+            40: "XL",
+            10: "X",
+            9: "IX",
+            5: "V",
+            4: "IV",
+            1: "I",
+        }
+        keys = value_dict.keys()
+        for i in keys:
+            no_of_occurances = int(input / i)
+            input -= no_of_occurances * i
+            result += no_of_occurances * value_dict[i]
         return result
